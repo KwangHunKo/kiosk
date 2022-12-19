@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class MenuModifyReq {
 
     private String menuName;
+    private String modifyName;
     private Long price;
 
 }

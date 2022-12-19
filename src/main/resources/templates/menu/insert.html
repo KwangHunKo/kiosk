@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    메뉴입력화면
+    <input type="text" id="menuName">
+    <input type="number" id="price">
+    <input type="file" id="file">
+    <button id="submit">등록</button>
+</body>
+<script>
+    let file = new Array;
+    document.querySelector("#file")
+        .addEventListener("change", (e)=>{
+        file.push(e.target.files[0]);
+        console.log(file);
+    });
+
+    document.querySelector("#submit")
+        .addEventListener("click", ()=>{
+            const form = new FormData();
+            form.append("menuName", document.querySelector("#menuName").value);
+            form.append("price", document.querySelector("#price").value);
+            form.append("files", file);
+
+            $.ajax({
+                type: 'post',
+                url: '/menu/addNew',
+                data: form,
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                cache:false,
+                success(){
+                    console.log("ok");
+                },
+                error(e){
+                    console.error(e.message);
+                }
+            })
+
+        })
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</html>

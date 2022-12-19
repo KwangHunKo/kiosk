@@ -4,9 +4,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,5 +18,7 @@ public class MenuAddReq {
     private String menuName;
     @NotBlank(message = "메뉴 가격을 지정해주세요")
     private Long price;
+    @NotBlank(message = "메뉴 이미지를 지정해주세요")
+    private List<MultipartFile> files;
 
 }
