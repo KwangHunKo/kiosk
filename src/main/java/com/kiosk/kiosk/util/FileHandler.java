@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Component
@@ -19,37 +18,36 @@ import java.util.UUID;
 @Log4j2
 public class FileHandler {
 
-    public List<ImageUploadReq> imageUpload(List<MultipartFile> files) throws IOException {
-
-        String path = "/file/image";
+    public ImageUploadReq imageUpload(MultipartFile file) throws IOException {
+        String sysPath = System.getProperty("user.dir");
+        String path = sysPath+"/image";
         File Folder = new File(path);
 
-        if(!Folder.exists()){
-            try{
+        if (!Folder.exists()) {
+            try {
                 Folder.mkdir();
-                log.info(path+" 경로에 폴더가 생성되었습니다.");
-            }catch(Exception e){
-                e.getStackTrace();
+                log.info("폴더 확인");
+            } catch (Exception e) {
+                log.info("폴더가 없습니다.");
             }
         }
 
-        List<ImageUploadReq> list = new ArrayList<>();
 
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                ImageUploadReq req =
-                        ImageUploadReq.builder().
-                                uuid(UUID.randomUUID().toString())
-                                .fineName(file.getOriginalFilename())
-                                .contentType(file.getContentType())
-                                .path(path)
-                                .size(file.getSize())
-                                .build();
-                list.add(req);
-                file.transferTo(Folder);
-            }
+        if (!file.isEmpty()) {
+            ImageUploadReq req =
+                    ImageUploadReq.builder().
+                            uuid(UUID.randomUUID().toString())
+                            .fineName(file.getOriginalFilename())
+                            .contentType(file.getContentType())
+                            .path(path)
+                            .size(file.getSize())
+                            .build();
+            File f = new File(path+"/"+req.getFileName());
+            file.transferTo(f);
+
+            return req;
+        }else{
+            return null;
         }
-
-    return list;
     }
 }

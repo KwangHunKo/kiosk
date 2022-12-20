@@ -31,12 +31,10 @@ public class MenuServiceImpl implements MenuService{
     @Override
     @Transactional
     public void addMenu(MenuAddReq req) throws IOException {
-        List<ImageUploadReq> imageLi= fileHandler.imageUpload(req.getFiles());
-        for(ImageUploadReq imgReq : imageLi){
+        ImageUploadReq imgReq = fileHandler.imageUpload(req.getFiles());
             Image image = new Image(imgReq);
             Menu newOne = new Menu(req, image);
             menuRepository.save(newOne);
-        }
     }
 
     //메뉴 수정하기

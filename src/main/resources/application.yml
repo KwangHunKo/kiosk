@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -11,15 +13,14 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-  h2:
-    console:
-      enabled: true
   servlet:
     multipart:
       enabled: true
       max-file-size: 100MB
       max-request-size: 500MB
-
 logging:
   level:
-    root: info
+    org:
+      springframework:
+        web: TRACE
+

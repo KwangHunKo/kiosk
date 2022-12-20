@@ -4,20 +4,19 @@ import com.kiosk.kiosk.dto.menu.MenuAddReq;
 import com.kiosk.kiosk.dto.menu.MenuModifyReq;
 import com.kiosk.kiosk.service.menu.MenuServiceImpl;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Log4j2
-@RequestMapping("/menu")
+@Slf4j
+@RequestMapping("/menuApi")
 public class MenuApi {
 
     private final MenuServiceImpl menuService;
 
     @PostMapping("/addNew")
     public void addNew(MenuAddReq req){
-        log.info(req);
         try {
             menuService.addMenu(req);
         }
