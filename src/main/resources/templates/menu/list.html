@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>메뉴판</title>
+</head>
+<style>
+    dl{
+        display: flex;
+        text-align: center;
+    }
+    li{
+        width: 300px;
+        height: 500px;
+        list-style: none;
+        display: inline-block;
+        text-align: center;
+    }
+</style>
+<body>
+<div>
+<dl>
+    <li th:each="m:${menus}" class="menu">
+        <div style="border:1px solid black; width:200px; height: 200px;">
+            <img th:src="@{'http://localhost:8080'+${m.image}}"/>
+        </div>
+        <div style="text-align: center; border: 1px solid black;">
+            <span class="menuName" th:text="${m.name}"></span> - <span class="menuPrice" th:text="${m.price}"></span> 원
+        </div>
+        <button class="minus">-</button>
+        <input type="number" class="qty" value="0" disabled/>
+        <button class="plus">+</button>
+    </li>
+</dl>
+</div>
+<div>
+    <button id="order">주문하기</button>
+</div>
+</body>
+<script>
+    $(".minus").on("click", function(){
+        let qty = $(this).next();
+           qty.val(parseInt(qty.val())-1);
+        if(qty.val()<0){
+            qty.val(0);
+        }
+    });
+
+    $(".plus").on("click", function(){
+        let qty = $(this).prev();
+           qty.val(parseInt(qty.val())+1);
+    });
+
+    $("#order").on("click", function(){
+        const orderLi = [];
+        let menu = document.querySelectorAll(".menuName");
+        let qty = document.querySelectorAll(".qty");
+        let price = document.querySelectorAll(".menuPrice");
+        menu.forEach((menu, i)=>{
+            const order = {};
+            order.menu = menu.innerText;
+            order.qty = qty[i].value;
+            order.price = parseInt(qty[i].value) * parseInt(price[i].innerText);
+            if(parseInt(order.qty) !== 0){
+                orderLi.push(order);
+            }
+        });
+        console.log(orderLi);
+    });
+</script>
+
+</html>

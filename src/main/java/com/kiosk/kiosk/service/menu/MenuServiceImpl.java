@@ -2,6 +2,7 @@ package com.kiosk.kiosk.service.menu;
 
 import com.kiosk.kiosk.dto.image.ImageUploadReq;
 import com.kiosk.kiosk.dto.menu.MenuAddReq;
+import com.kiosk.kiosk.dto.menu.MenuListRes;
 import com.kiosk.kiosk.dto.menu.MenuModifyReq;
 import com.kiosk.kiosk.entity.image.Image;
 import com.kiosk.kiosk.entity.menu.Menu;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,5 +53,16 @@ public class MenuServiceImpl implements MenuService{
     public void deleteMenu(String menu) throws Exception {
         Menu getMenu = menuRepository.findByMenuName(menu).orElseThrow(Exception::new);
         menuRepository.delete(getMenu);
+    }
+
+    @Override
+    public List<MenuListRes> getList() {
+        List<MenuListRes> returnRes = new ArrayList<>();
+        List<Menu> menus = menuRepository.findAll();
+        for(Menu m: menus){
+            MenuListRes res = new MenuListRes(m);
+            returnRes.add(res);
+        }
+        return returnRes;
     }
 }
