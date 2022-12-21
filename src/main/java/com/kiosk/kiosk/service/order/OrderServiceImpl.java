@@ -55,4 +55,11 @@ public class OrderServiceImpl implements OrderService {
             order.completeOrder(true);
         }
     }
+
+    @Transactional
+    @Override
+    public void deleteOrder(Long orderNo) {
+        List<Orders> orderList = ordersRepository.findByOrderRow(orderNo);
+        ordersRepository.deleteAll(orderList);
+    }
 }

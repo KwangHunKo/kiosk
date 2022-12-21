@@ -40,4 +40,9 @@ public class OrderApi {
         orderService.completeOrder(orderNo);
     }
 
+    @DeleteMapping("/cancel")
+    public void deleteOrder(@RequestParam HashMap req){
+        Long orderNo = Long.parseLong((String) req.get("orderNo"));
+        orderService.deleteOrder(orderNo);
+    }
 }

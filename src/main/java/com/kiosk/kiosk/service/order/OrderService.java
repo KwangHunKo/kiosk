@@ -14,4 +14,6 @@ public interface OrderService {
     Map<Long, List<OrderListResponse>> orderList();
 
     void completeOrder(Long orderNo);
+
+    void deleteOrder(Long orderNo);
 }
