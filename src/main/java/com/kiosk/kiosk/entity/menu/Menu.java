@@ -4,7 +4,6 @@ import com.kiosk.kiosk.dto.menu.MenuAddReq;
 import com.kiosk.kiosk.dto.menu.MenuModifyReq;
 import com.kiosk.kiosk.entity.BaseTimeEntity;
 import com.kiosk.kiosk.entity.image.Image;
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -25,17 +24,14 @@ public class Menu extends BaseTimeEntity {
     @Column
     private Long menuNo;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String menuName;
 
-    @NotNull
-    @Column
+    @Column(nullable = false)
     private Long price;
 
     @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @NotNull
-    @JoinColumn(name="imgNo")
+    @JoinColumn(name="imgNo", nullable = false)
     private Image image;
 
 

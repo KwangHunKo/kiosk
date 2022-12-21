@@ -59,15 +59,29 @@
         let qty = document.querySelectorAll(".qty");
         let price = document.querySelectorAll(".menuPrice");
         menu.forEach((menu, i)=>{
-            const order = {};
-            order.menu = menu.innerText;
-            order.qty = qty[i].value;
-            order.price = parseInt(qty[i].value) * parseInt(price[i].innerText);
-            if(parseInt(order.qty) !== 0){
+            const order = {
+            "name" : menu.innerText,
+            "quantity" : parseInt(qty[i].value),
+            "price" : parseInt(qty[i].value) * parseInt(price[i].innerText)
+            };
+            if(parseInt(order.quantity) !== 0){
                 orderLi.push(order);
             }
         });
         console.log(orderLi);
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/order/new",
+            data:JSON.stringify(orderLi),
+            success(){
+                alert("주문완료");
+            },
+            error(e){
+                console.error(e);
+            }
+        })
     });
 </script>
 
